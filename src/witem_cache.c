@@ -44,7 +44,7 @@ witem_alloc(void (*func)(void *), void *func_arg)
 {
 	struct work *witem;
     
-	while (!(witem = fastpath(malloc(ROUND_UP_TO_CACHELINE_SIZE(sizeof(*witem)))))) {
+	while (!(witem = fastpath((struct work*)malloc(ROUND_UP_TO_CACHELINE_SIZE(sizeof(*witem)))))) {
 		sleep(1);
 	}
 

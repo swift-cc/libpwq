@@ -18,9 +18,10 @@
 #define  _DEBUG_H
 
 #include <assert.h>
+ #define NDEBUG
 
 extern int DEBUG_WORKQUEUE;
-extern char *WORKQUEUE_DEBUG_IDENT;
+extern const char *WORKQUEUE_DEBUG_IDENT;
 
 #if defined(__linux__)
 
@@ -35,6 +36,8 @@ extern char *WORKQUEUE_DEBUG_IDENT;
 # define THREAD_ID (0)
 #elif defined(_WIN32)
 # define THREAD_ID (int)(GetCurrentThreadId())
+#elif defined(__ANDROID__)
+# define THREAD_ID (pthread_self())
 #else 
 # error Unsupported platform
 #endif
@@ -49,7 +52,7 @@ extern char *WORKQUEUE_DEBUG_IDENT;
 
 #define dbg_printf(fmt,...)     do {                                \
     if (DEBUG_WORKQUEUE)                                                      \
-      fprintf(stderr, "%s [%d]: %s(): "fmt"\n",                     \
+      fprintf(stderr, "%s [%d]: %s(): " fmt "\n",                     \
               WORKQUEUE_DEBUG_IDENT, THREAD_ID, __func__, __VA_ARGS__);       \
 } while (0)
 

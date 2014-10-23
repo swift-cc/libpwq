@@ -31,7 +31,7 @@
 
 unsigned int PWQ_ACTIVE_CPU = 0;
 int DEBUG_WORKQUEUE = 0;
-char *WORKQUEUE_DEBUG_IDENT = "WQ";
+const char *WORKQUEUE_DEBUG_IDENT = "WQ";
 
 static int
 valid_workq(pthread_workqueue_t workq) 
@@ -91,7 +91,7 @@ pthread_workqueue_create_np(pthread_workqueue_t *workqp,
     if ((attr != NULL) && ((attr->sig != PTHREAD_WORKQUEUE_ATTR_SIG) ||
          (attr->queueprio < 0) || (attr->queueprio >= WORKQ_NUM_PRIOQUEUE)))
         return (EINVAL);
-    if ((workq = calloc(1, sizeof(*workq))) == NULL)
+    if ((workq = (pthread_workqueue_t)calloc(1, sizeof(*workq))) == NULL)
         return (ENOMEM);
     workq->sig = PTHREAD_WORKQUEUE_SIG;
     workq->flags = 0;
